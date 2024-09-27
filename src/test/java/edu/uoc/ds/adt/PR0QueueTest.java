@@ -1,6 +1,7 @@
 package edu.uoc.ds.adt;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
@@ -10,13 +11,12 @@ public class PR0QueueTest {
 
     PR0Queue pr0q;
 
-
     private void fillQueue() {
-        for (char c = '0'; c < '9'; c++) {
-            pr0q.add(Character.valueOf(c));
-
+        for (int c = 1; c < 16; c++) {
+            pr0q.add(c);
         }
     }
+
     @Before
     public void setUp() {
         this.pr0q = new PR0Queue();
@@ -33,11 +33,22 @@ public class PR0QueueTest {
 
     @org.junit.Test
     public void queueTest() {
-        assertEquals(this.pr0q.CAPACITY-1, this.pr0q.getQueue().size());
-
-        assertEquals(this.pr0q.clearFullQueue(), new String("0 1 2 3 4 5 6 7 8 "));
-
+        assertEquals(this.pr0q.CAPACITY, this.pr0q.getQueue().size());
+        Assert.assertEquals(1, pr0q.poll(), 0);
+        Assert.assertEquals(4, pr0q.poll(), 0);
+        Assert.assertEquals(9, pr0q.poll(), 0);
+        Assert.assertEquals(0, pr0q.poll(), 0);
+        Assert.assertEquals(1, pr0q.poll(), 0);
+        Assert.assertEquals(4, pr0q.poll(), 0);
+        Assert.assertEquals(9, pr0q.poll(), 0);
+        Assert.assertEquals(0, pr0q.poll(), 0);
+        Assert.assertEquals(1, pr0q.poll(), 0);
+        Assert.assertEquals(4, pr0q.poll(), 0);
+        Assert.assertEquals(9, pr0q.poll(), 0);
+        Assert.assertEquals(0, pr0q.poll(), 0);
+        Assert.assertEquals(1, pr0q.poll(), 0);
+        Assert.assertEquals(4, pr0q.poll(), 0);
+        Assert.assertEquals(9, pr0q.poll(), 0);
         assertEquals(0, this.pr0q.getQueue().size());
     }
-
 }
