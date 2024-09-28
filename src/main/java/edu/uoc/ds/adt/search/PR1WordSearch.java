@@ -8,6 +8,8 @@ import edu.uoc.ds.traversal.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 
+// Asignatura: Diseño de estructura de datos - UOC
+// Autoría: Laia López Baca
 public class PR1WordSearch {
     private final String board;
 
@@ -36,19 +38,20 @@ public class PR1WordSearch {
     }
 
     public Stack<Result> search(Set<String> words) {
-        return this.searchByColumnsAndWords(words.values());
+        return this.searchByColumnsAndRows(words.values());
     }
 
-
+    // Reemplazamos los espacios en blanco del principio para evitar errores y almacenar posiciones vacías en el array.
     private String getCleanBoard() {
         return this.board.replaceFirst("^\\s*", "");
     }
 
 
-    private Stack<Result> searchByColumnsAndWords(Iterator<String> wordsToSearch) {
-        // Separamos las filas por espaciados.
+    private Stack<Result> searchByColumnsAndRows(Iterator<String> wordsToSearch) {
+        // Separamos las filas por espaciados para poder buscar.
         String[] rows = this.getCleanBoard().split(" ");
         List<String> columnToSearch = new ArrayList<>();
+        // Guardaremos las palabras encontradas.
         Stack<Result> matchedWords = new StackArrayImpl<>();
 
         // Por cada palabra...
@@ -59,21 +62,24 @@ public class PR1WordSearch {
             for (int i = 0; i < rows[0].length(); i++) {
                 // Construimos un nuevo array: cada valor en vez de ser una fila, será una columna.
                 StringBuilder column = new StringBuilder();
-                // Por cada fila...
+                // Formamos la columna por cada carácter de la fila.
                 for (String s : rows) {
                     column.append(s.charAt(i));
                 }
 
-                // Añadimos la columna a la lista.
+                // Añadimos la columna a la lista de columnas totales.
                 columnToSearch.add(column.toString());
 
+                // Si la palabra no se ha encontrado todavía...
                 if (!isWordAlreadyFound) {
+                    // Miramos si se encuentra en alguna fila.
                     if (rows[i].contains(word)) {
                         isWordAlreadyFound = true;
                         // Añadimos la palabra al stack.
                         matchedWords.push(new Result(word, i, rows[i].indexOf(word), Direction.HORIZONTAL));
                     }
 
+                    // Miramos si se encuentra en alguna columna.
                     if (columnToSearch.get(i).contains(word)) {
                         isWordAlreadyFound = true;
                         // Añadimos la palabra al stack.
