@@ -55,9 +55,9 @@ public class PR1WordSearch {
         Stack<Result> matchedWords = new StackArrayImpl<>();
 
         // Por cada palabra...
-        for (Iterator<String> wordIterator = wordsToSearch; wordIterator.hasNext(); ) {
-            Boolean isWordAlreadyFound = false;
-            String word = wordIterator.next();
+        while (wordsToSearch.hasNext()) {
+            boolean isWordAlreadyFound = false;
+            String word = wordsToSearch.next();
             // Por cada fila/columna...
             for (int i = 0; i < rows.length; i++) {
                 // Construimos un nuevo array con todas las columnas.
