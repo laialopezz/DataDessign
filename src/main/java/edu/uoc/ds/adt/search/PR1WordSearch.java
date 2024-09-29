@@ -50,7 +50,7 @@ public class PR1WordSearch {
     private Stack<Result> searchByColumnsAndRows(Iterator<String> wordsToSearch) {
         // Separamos las filas por espaciados para poder buscar.
         String[] rows = this.getCleanBoard().split(" ");
-        List<String> columnToSearch = new ArrayList<>();
+        List<String> columns = new ArrayList<>();
         // Guardaremos las palabras encontradas.
         Stack<Result> matchedWords = new StackArrayImpl<>();
 
@@ -58,9 +58,9 @@ public class PR1WordSearch {
         for (Iterator<String> wordIterator = wordsToSearch; wordIterator.hasNext(); ) {
             Boolean isWordAlreadyFound = false;
             String word = wordIterator.next();
-
-            for (int i = 0; i < rows[0].length(); i++) {
-                // Construimos un nuevo array: cada valor en vez de ser una fila, será una columna.
+            // Por cada fila/columna...
+            for (int i = 0; i < rows.length; i++) {
+                // Construimos un nuevo array con todas las columnas.
                 StringBuilder column = new StringBuilder();
                 // Formamos la columna por cada carácter de la fila.
                 for (String s : rows) {
@@ -68,7 +68,7 @@ public class PR1WordSearch {
                 }
 
                 // Añadimos la columna a la lista de columnas totales.
-                columnToSearch.add(column.toString());
+                columns.add(column.toString());
 
                 // Si la palabra no se ha encontrado todavía...
                 if (!isWordAlreadyFound) {
@@ -76,14 +76,16 @@ public class PR1WordSearch {
                     if (rows[i].contains(word)) {
                         isWordAlreadyFound = true;
                         // Añadimos la palabra al stack.
+                        // rows[i].indexOf(word) -> De la fila actual, mira en que columna está.
                         matchedWords.push(new Result(word, i, rows[i].indexOf(word), Direction.HORIZONTAL));
                     }
 
                     // Miramos si se encuentra en alguna columna.
-                    if (columnToSearch.get(i).contains(word)) {
+                    if (columns.get(i).contains(word)) {
                         isWordAlreadyFound = true;
                         // Añadimos la palabra al stack.
-                        matchedWords.push(new Result(word, columnToSearch.get(i).indexOf(word), i, Direction.VERTICAL));
+                        // columns.get(i).indexOf(word) -> De la columna actual, mira en que fila está.
+                        matchedWords.push(new Result(word, columns.get(i).indexOf(word), i, Direction.VERTICAL));
                     }
                 }
             }
